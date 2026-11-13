@@ -1,12 +1,16 @@
 [build-system]
-requires = ["setuptools>=75", "wheel"]
+requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "win-reg-mcp"
 version = "0.1.0"
 description = "Local AI-powered Windows Registry MCP server"
+readme = "README.md"
 requires-python = ">=3.11"
+authors = [
+    { name = "Evgeny Kolyakov", email = "thenetfreaker@gmail.com" }
+]
 dependencies = [
   "mcp>=1.28,<2",
   "sqlite-vec==0.1.9",
@@ -18,13 +22,21 @@ dependencies = [
   "typer>=0.29.1",
 ]
 
+[project.urls]
+Homepage = "https://github.com/freaker2k7/win-reg-mcp"
+Repository = "https://github.com/freaker2k7/win-reg-mcp"
+Documentation = "https://github.com/freaker2k7/win-reg-mcp/blob/master/README.md"
+"Bug Tracker" = "https://github.com/freaker2k7/win-reg-mcp/issues"
+
 [project.optional-dependencies]
 dev = [
   "black>=25.1",
+  "build>=1.6.1",
   "ruff>=0.11",
   "pytest>=8.3",
   "pytest-cov>=6.0",
   "pyinstaller>=6.12",
+  "twine>=7.0"
 ]
 
 [project.scripts]

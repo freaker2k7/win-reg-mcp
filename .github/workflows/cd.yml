@@ -24,16 +24,16 @@ jobs:
         with:
           python-version: "3.x"
 
+      - name: Install development dependencies
+        run: python -m pip install -e ".[dev]"
+
       - name: Build release distributions
-        run: |
-          python -m pip install build
-          python -m pip install -e ".[dev]"
-          ./scripts/build.ps1
+        run: ./scripts/build.ps1
 
       - name: Release
         uses: softprops/action-gh-release@v3
         with:
-          files: dist/*
+          files: build/*
           tag_name: ${{ github.ref_name }}
 
       - name: Upload release distributions
