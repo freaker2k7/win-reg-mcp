@@ -93,9 +93,7 @@ class RegistryIndexer:
         if not changed:
             return 0, len(unchanged_keys)
 
-        records = [
-            self.explanation_record(index, value) for index, value in enumerate(changed)
-        ]
+        records = [self.explanation_record(index, value) for index, value in enumerate(changed)]
         explanations = self.ollama.explain_registry_batch(records)
         searchable_texts = [
             self.store.searchable_text(value, explanation)

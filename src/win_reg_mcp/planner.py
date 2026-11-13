@@ -156,7 +156,8 @@ class RegistryPlanner:
                     }
                 )
         response_text = self.ollama.chat_json(
-            messages + [
+            messages
+            + [
                 {
                     "role": "user",
                     "content": "Stop using tools and return the final Registry plan as JSON now.",

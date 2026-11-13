@@ -9,3 +9,4 @@ dist/
 *.spec
 *.log
 .DS_Store
+*.egg*

@@ -129,8 +129,9 @@ class RegistryManager:
             raise ValueError(f"Registry view is not enabled: {action.view}")
         action.key_path = self._normalize_path(action.key_path)
         for prefix in PROTECTED_PREFIXES.get(action.hive, ()):
-            if action.key_path.casefold() == prefix.casefold() or action.key_path.casefold().startswith(
-                prefix.casefold() + "\\"
+            if (
+                action.key_path.casefold() == prefix.casefold()
+                or action.key_path.casefold().startswith(prefix.casefold() + "\\")
             ):
                 raise PermissionError(f"Changes under {action.hive}\\{prefix} are blocked")
         if action.action not in {"set_value", "delete_value"}:
@@ -195,7 +196,9 @@ class RegistryManager:
             action = self._validate_action(proposed)
             identity = self._action_identity(action)
             if identity in identities:
-                raise ValueError("The plan contains duplicate mutations for the same Registry value")
+                raise ValueError(
+                    "The plan contains duplicate mutations for the same Registry value"
+                )
             identities.add(identity)
             snapshot = self.registry.read_value(
                 action.hive, action.view, action.key_path, action.value_name
@@ -316,7 +319,9 @@ class RegistryManager:
             try:
                 index_status = self._refresh_index(actions)
             except Exception as exc:
-                LOGGER.exception("Rollout %s succeeded but semantic index refresh failed", rollout_id)
+                LOGGER.exception(
+                    "Rollout %s succeeded but semantic index refresh failed", rollout_id
+                )
                 index_status = f"pending next startup scan ({exc})"
             lines = [
                 f"## Rollout #{rollout_id} applied",

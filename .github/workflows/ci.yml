@@ -31,6 +31,14 @@ jobs:
         with:
           python-version: "${{ matrix.version }}"
 
+      - name: Setup Ollama
+        uses: ai-action/setup-ollama@v2
+
+      - name: Pull models
+        run: |
+          ollama pull qwen2.5:7b
+          ollama pull nomic-embed-text
+
       - name: Install build tools & dev dependencies
         run: |
           python -m pip install build twine

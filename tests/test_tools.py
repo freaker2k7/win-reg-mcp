@@ -149,7 +149,9 @@ def build_manager(
     planner: FakePlanner,
 ) -> RegistryManager:
     """Construct the manager with deterministic dependencies for isolated tool tests."""
-    settings = Settings(top_k=10, registry_views=("64", "32"), scan_hives=("HKLM", "HKCU", "HKCR", "HKU", "HKCC"))
+    settings = Settings(
+        top_k=10, registry_views=("64", "32"), scan_hives=("HKLM", "HKCU", "HKCR", "HKU", "HKCC")
+    )
     return RegistryManager(settings, store, FakeOllama(), registry, indexer, planner)
 
 
@@ -193,9 +195,10 @@ def test_rollout_persists_backup_before_applying_change() -> None:
     assert store.created["backup"][0]["snapshot"]["value_data"] == "C:\\old.jpg"
     assert registry.applied == [action]
     assert store.events == ["backup_committed", "registry_write"]
-    assert registry.values[("HKCU", "64", "Control Panel\\Desktop", "Wallpaper")][
-        "value_data"
-    ] == "C:\\XYZ\\third.jpg"
+    assert (
+        registry.values[("HKCU", "64", "Control Panel\\Desktop", "Wallpaper")]["value_data"]
+        == "C:\\XYZ\\third.jpg"
+    )
     assert store.finished == [(17, "applied", None)]
     assert "Rollout #17 applied" in result
     assert "Automatic backup" in result
@@ -233,9 +236,10 @@ def test_rollback_restores_the_last_rollout_snapshot() -> None:
     result = manager.rollback()
 
     assert registry.restored[0][4]["value_data"] == "C:\\old.jpg"
-    assert registry.values[("HKCU", "64", "Control Panel\\Desktop", "Wallpaper")][
-        "value_data"
-    ] == "C:\\old.jpg"
+    assert (
+        registry.values[("HKCU", "64", "Control Panel\\Desktop", "Wallpaper")]["value_data"]
+        == "C:\\old.jpg"
+    )
     assert store.finished == [(17, "rolled_back", None)]
     assert "Rollback #17 completed" in result
     assert len(indexer.values) == 1

@@ -86,7 +86,7 @@ def _from_json_safe(value: Any) -> Any:
 
 def _type_name(winreg: Any, raw_type: int) -> str:
     """Translate numeric winreg types into durable names stored in SQLite."""
-    for name, value in REG_TYPE_NAMES.items():
+    for name in REG_TYPE_NAMES.keys():
         if getattr(winreg, name, object()) == raw_type:
             return name
     return f"REG_TYPE_{raw_type}"
@@ -257,7 +257,9 @@ class WindowsRegistry:
     @staticmethod
     def _broadcast_wallpaper_change(path: str) -> None:
         """Notify the Windows shell when a Registry rollout changes the desktop wallpaper."""
-        result = ctypes.windll.user32.SystemParametersInfoW(20, 0, ctypes.c_wchar_p(path), 0x01 | 0x02)
+        result = ctypes.windll.user32.SystemParametersInfoW(
+            20, 0, ctypes.c_wchar_p(path), 0x01 | 0x02
+        )
         if not result:
             LOGGER.warning(
                 "Wallpaper Registry value was written, but Windows did not accept the update "
@@ -285,7 +287,10 @@ class WindowsRegistry:
             try:
                 self.apply_action(action)
             except RegistryError as exc:
-                if "cannot delete" not in str(exc).lower() and "cannot open" not in str(exc).lower():
+                if (
+                    "cannot delete" not in str(exc).lower()
+                    and "cannot open" not in str(exc).lower()
+                ):
                     raise
             return
         action = RegistryAction(

@@ -5,11 +5,11 @@ from __future__ import annotations
 import json
 import logging
 import sqlite3
+from collections.abc import Iterator
 from contextlib import contextmanager
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Iterator
-
+from typing import Any
 
 from win_reg_mcp.models import RegistryFinding, RegistryValue
 
@@ -55,8 +55,7 @@ class SQLiteStore:
         """Create durable metadata and rollout tables before scanning Windows."""
         with self._connection() as connection:
             connection.execute("PRAGMA journal_mode=WAL")
-            connection.executescript(
-                """
+            connection.executescript("""
                 CREATE TABLE IF NOT EXISTS metadata (
                     key TEXT PRIMARY KEY,
                     value TEXT NOT NULL
@@ -89,8 +88,7 @@ class SQLiteStore:
                     status TEXT NOT NULL,
                     error TEXT
                 );
-                """
-            )
+                """)
 
     @staticmethod
     def _now() -> str:
@@ -149,7 +147,12 @@ class SQLiteStore:
     def _unique_key(value: RegistryValue) -> str:
         """Build an unambiguous identity from hive, view, key, and value name."""
         return json.dumps(
-            [value.hive.upper(), value.view, value.key_path.casefold(), value.value_name.casefold()],
+            [
+                value.hive.upper(),
+                value.view,
+                value.key_path.casefold(),
+                value.value_name.casefold(),
+            ],
             ensure_ascii=False,
             separators=(",", ":"),
         )
@@ -330,7 +333,6 @@ class SQLiteStore:
             )
             for row in rows
         ]
-
 
     def delete_registry_value(self, value: RegistryValue) -> None:
         """Remove a deleted Registry value from both metadata and vector storage."""

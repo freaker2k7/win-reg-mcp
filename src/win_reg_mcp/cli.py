@@ -30,7 +30,9 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--embedding-model", default="nomic-embed-text")
     parser.add_argument("--vision-model", default="qwen2.5vl:7b")
     parser.add_argument("--database", type=Path, default=default_database_path())
-    parser.add_argument("--log-level", choices=("DEBUG", "INFO", "WARNING", "ERROR"), default="INFO")
+    parser.add_argument(
+        "--log-level", choices=("DEBUG", "INFO", "WARNING", "ERROR"), default="INFO"
+    )
     parser.add_argument("--log-file", type=Path)
     parser.add_argument("--ollama-timeout", type=float, default=240.0)
     parser.add_argument("--tool-timeout", type=float, default=30.0)
