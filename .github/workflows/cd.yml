@@ -33,35 +33,35 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v3
         with:
-          files: build/*
+          files: dist/win-reg-mcp.exe
           tag_name: ${{ github.ref_name }}
 
-      - name: Upload release distributions
-        uses: actions/upload-artifact@v7
-        with:
-          name: dist
-          path: dist
+      # - name: Upload release distributions
+      #   uses: actions/upload-artifact@v7
+      #   with:
+      #     name: dist
+      #     path: dist
 
 
-  pypi-publish:
-    runs-on: windows-latest
-    needs:
-      - build
-    permissions:
-      id-token: write
+  # pypi-publish:
+  #   runs-on: windows-latest
+  #   needs:
+  #     - build
+  #   permissions:
+  #     id-token: write
 
-    environment:
-      name: pypi
-      url: https://pypi.org/project/win-reg-mcp
+  #   environment:
+  #     name: pypi
+  #     url: https://pypi.org/project/win-reg-mcp
 
-    steps:
-      - name: Download release distributions
-        uses: actions/download-artifact@v8
-        with:
-          name: dist
-          path: dist
+  #   steps:
+  #     - name: Download release distributions
+  #       uses: actions/download-artifact@v8
+  #       with:
+  #         name: dist
+  #         path: dist
 
-      - name: Publish release distributions to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          packages-dir: dist/
+  #     - name: Publish release distributions to PyPI
+  #       uses: pypa/gh-action-pypi-publish@release/v1
+  #       with:
+  #         packages-dir: dist/
