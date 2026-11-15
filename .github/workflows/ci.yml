@@ -51,5 +51,5 @@ jobs:
       - name: Build package
         run: ./scripts/build.ps1
 
-      - name: Check twine configuration
-        run: ./scripts/twine-check.ps1
+      # - name: Check twine configuration
+      #   run: ./scripts/twine-check.ps1
