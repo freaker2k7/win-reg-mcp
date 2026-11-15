@@ -12,13 +12,13 @@ authors = [
     { name = "Evgeny Kolyakov", email = "thenetfreaker@gmail.com" }
 ]
 dependencies = [
-  "mcp>=1.28,<2",
+  "mcp>=2.3,<3",
   "sqlite-vec==0.1.9",
-  "pywin32>=306; platform_system == 'Windows'",
+  "pywin32>=312; platform_system == 'Windows'",
   "pyautogui>=0.9.54",
-  "Pillow>=10.4",
-  "opencv-python-headless>=4.10",
-  "ddgs>=9.0",
+  "Pillow>=13.0",
+  "opencv-python-headless>=5.0",
+  "ddgs>=9.16",
   "typer>=0.29.1",
 ]
 
@@ -30,12 +30,12 @@ Documentation = "https://github.com/freaker2k7/win-reg-mcp/blob/master/README.md
 
 [project.optional-dependencies]
 dev = [
-  "black>=25.1",
+  "black>=26.10",
   "build>=1.6.1",
-  "ruff>=0.11",
-  "pytest>=8.3",
-  "pytest-cov>=6.0",
-  "pyinstaller>=6.12",
+  "ruff>=0.17.5",
+  "pytest>=9.2",
+  "pytest-cov>=7.1",
+  "pyinstaller>=6.22",
   "twine>=7.0"
 ]
 
