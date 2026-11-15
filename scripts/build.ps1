@@ -10,9 +10,9 @@ if ($LASTEXITCODE -ne 0) {
     throw "PyInstaller build failed with exit code $LASTEXITCODE"
 }
 
-Create-Item -Path "build" -ItemType Directory -Force
+New-Item -Path "build" -ItemType Directory
 Move-Item -Path "dist\win-reg-mcp.exe" -Destination "build\win-reg-mcp.exe"
-Write-Host "Built build\win-reg-mcp.exe"
+Write-Host "Final build: build\win-reg-mcp.exe"
 
 python -m build
 if ($LASTEXITCODE -ne 0) {
